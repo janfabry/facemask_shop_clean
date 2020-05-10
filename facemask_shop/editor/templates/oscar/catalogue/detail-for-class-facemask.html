@@ -1,0 +1,61 @@
+{% extends "oscar/catalogue/detail.html" %}
+
+{% load static %}
+
+{% block product_gallery %}
+<div class="col-sm-6">
+    <div id="product_gallery" class="carousel">
+        <div class="thumbnail">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div id="facemask-editor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extrahead %}
+{{ block.super }}
+<script src="{% static "editor/playcanvas/playcanvas-stable.min.js" %}"></script>
+<script>
+ASSET_PREFIX = "{% get_static_prefix %}editor/playcanvas/";
+SCRIPT_PREFIX = "{% get_static_prefix %}editor/playcanvas/";
+SCENE_PATH = "916290.json";
+CONTEXT_OPTIONS = {
+    'antialias': true,
+    'alpha': false,
+    'preserveDrawingBuffer': false,
+    'preferWebGl2': true
+};
+SCRIPTS = [ 30591974, 30591975, 30591976, 30591977, 30592936, 30620114, 30628754, 30629739 ];
+CONFIG_FILENAME = "{% static "editor/playcanvas/config.json" %}";
+INPUT_SETTINGS = {
+    useKeyboard: true,
+    useMouse: true,
+    useGamepads: false,
+    useTouch: true
+};
+pc.script.legacy = false;
+PRELOAD_MODULES = [
+];
+
+</script>
+{% endblock %}
+
+{% block extrastyles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "editor/playcanvas/styles.css" %}" />
+<style>/* Empty block for PlayCanvas */</style>
+{% endblock %}
+
+{% block extrascripts %}
+{{ block.super }}
+<script src="{% static "editor/playcanvas/__start__.js" %}"></script>
+<script>
+var facemask_editor_canvas = document.getElementById('application-canvas');
+document.getElementById('facemask-editor').appendChild(facemask_editor_canvas);
+</script>
+{% endblock %}

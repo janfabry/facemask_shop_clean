@@ -93,6 +93,7 @@ OSCAR_THIRD_PARTY_APPS = [
 ]
 THIRD_PARTY_APPS = []
 LOCAL_APPS = [
+    'facemask_shop.editor.apps.EditorConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + OSCAR_CORE_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + LOCAL_APPS
