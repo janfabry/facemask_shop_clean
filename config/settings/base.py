@@ -1,5 +1,5 @@
 """
-Django settings for facemask-shop project.
+Django settings for facemask_shop project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/2.1/topics/settings/
@@ -13,8 +13,8 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from oscar.defaults import *
 
-ROOT_DIR = environ.Path(__file__) - 3  # (facemask-shop/config/settings/base.py - 3 = facemask-shop/)
-APPS_DIR = ROOT_DIR.path('facemask-shop')
+ROOT_DIR = environ.Path(__file__) - 3  # (facemask_shop/config/settings/base.py - 3 = facemask_shop/)
+APPS_DIR = ROOT_DIR.path('facemask_shop')
 
 # Load operating system environment variables and then prepare to use them
 env = environ.Env()
@@ -188,13 +188,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Media configuration
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_ROOT = str(APPS_DIR('media'))
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_URL = '/media/'
+
+# Sentry error logging
 sentry_sdk.init(
     integrations=[DjangoIntegration()]
 )
 
 # Oscar settings
-
-
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',

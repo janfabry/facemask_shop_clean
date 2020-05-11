@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
+class Facemask(models.Model):
+    full_image = models.ImageField(upload_to='facemask/full_image/')
+    thumbnail = models.ImageField(upload_to='facemask/thumbnail/', blank=True, null=True)

@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from facemask_shop.editor.models import Facemask
+
+admin.site.register(Facemask)
