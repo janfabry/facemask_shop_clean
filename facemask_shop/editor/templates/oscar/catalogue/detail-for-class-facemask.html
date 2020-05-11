@@ -41,7 +41,7 @@ INPUT_SETTINGS = {
 pc.script.legacy = false;
 PRELOAD_MODULES = [
 ];
-
+EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 </script>
 {% endblock %}
 
@@ -58,4 +58,5 @@ PRELOAD_MODULES = [
 var facemask_editor_canvas = document.getElementById('application-canvas');
 document.getElementById('facemask-editor').appendChild(facemask_editor_canvas);
 </script>
+<script src="{% static "editor/js/editor.js" %}"></script>
 {% endblock %}

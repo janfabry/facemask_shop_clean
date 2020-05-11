@@ -24,7 +24,7 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('', include(apps.get_app_config('oscar').urls[0])),
-    path('editor/', include('facemask_shop.editor.urls')),
+    path('editor/', include('facemask_shop.editor.urls', namespace='editor')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
