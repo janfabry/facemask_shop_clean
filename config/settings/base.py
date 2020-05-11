@@ -62,7 +62,7 @@ OSCAR_CORE_APPS = [
     'oscar.apps.catalogue',
     'oscar.apps.catalogue.reviews',
     'oscar.apps.partner',
-    'oscar.apps.basket',
+    # 'oscar.apps.basket',
     'oscar.apps.payment',
     'oscar.apps.offer',
     'oscar.apps.order',
@@ -92,11 +92,14 @@ OSCAR_THIRD_PARTY_APPS = [
     'django_tables2',
 ]
 THIRD_PARTY_APPS = []
+OSCAR_LOCAL_APPS = [
+    'facemask_shop.basket.apps.BasketConfig',
+]
 LOCAL_APPS = [
     'facemask_shop.editor.apps.EditorConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + OSCAR_CORE_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + OSCAR_CORE_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + OSCAR_LOCAL_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
