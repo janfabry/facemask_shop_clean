@@ -1,5 +1,3 @@
-from storages.backends.s3boto3 import S3Boto3Storage
-
 from .base import *
 
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['facemask.monkeyman.be'])
@@ -35,12 +33,7 @@ AWS_S3_ADDRESSING_STYLE = "virtual"
 
 # MEDIA
 # ------------------------------------------------------------------------------
-class MediaRootS3Boto3Storage(S3Boto3Storage):
-    location = "media"
-    file_overwrite = False
-
-
-DEFAULT_FILE_STORAGE = "config.settings.local.MediaRootS3Boto3Storage"
+DEFAULT_FILE_STORAGE = "config.storages.MediaRootS3Boto3Storage"
 MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/"
 
 
