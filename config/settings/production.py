@@ -1,8 +1,48 @@
+from storages.backends.s3boto3 import S3Boto3Storage
+
 from .base import *
 
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['facemask.monkeyman.be'])
 
 STATIC_ROOT = str(ROOT_DIR.path('assets/static/'))
+
+
+# STORAGES
+# ------------------------------------------------------------------------------
+# https://django-storages.readthedocs.io/en/latest/#installation
+INSTALLED_APPS += ["storages"]  # noqa F405
+
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_ACCESS_KEY_ID = env("DJANGO_AWS_ACCESS_KEY_ID")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_SECRET_ACCESS_KEY = env("DJANGO_AWS_SECRET_ACCESS_KEY")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_STORAGE_BUCKET_NAME = env("DJANGO_AWS_STORAGE_BUCKET_NAME")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_QUERYSTRING_AUTH = True
+# DO NOT change these unless you know what you're doing.
+_AWS_EXPIRY = 60 * 60 * 24 * 7
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": f"max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate"
+}
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_DEFAULT_ACL = None
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_REGION_NAME = env("DJANGO_AWS_S3_REGION_NAME", default='eu-central-1')
+AWS_S3_ADDRESSING_STYLE = "virtual"
+
+
+# MEDIA
+# ------------------------------------------------------------------------------
+class MediaRootS3Boto3Storage(S3Boto3Storage):
+    location = "media"
+    file_overwrite = False
+
+
+DEFAULT_FILE_STORAGE = "config.settings.local.MediaRootS3Boto3Storage"
+MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/"
+
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -20,6 +60,7 @@ ANYMAIL = {
     'MAILGUN_API_URL': env('DJANGO_MAILGUN_API_URL', default='https://api.eu.mailgun.net/v3'),
 }
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+
 
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
