@@ -16,7 +16,8 @@ SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 INSTALLED_APPS += ['anymail', ]
 ANYMAIL = {
     'MAILGUN_API_KEY': env('DJANGO_MAILGUN_API_KEY'),
-    'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN')
+    'MAILGUN_SENDER_DOMAIN': env('DJANGO_MAILGUN_SENDER_DOMAIN', default='mg.mondmasker.app'),
+    'MAILGUN_API_URL': env('DJANGO_MAILGUN_API_URL', default='https://api.eu.mailgun.net/v3'),
 }
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 
