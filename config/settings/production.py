@@ -4,6 +4,22 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['facemask.monkeyman.be
 
 STATIC_ROOT = str(ROOT_DIR.path('assets/static/'))
 
+# EMAIL
+# ------------------------------------------------------------------------------
+DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
+                         default='Mondmasker.app <info@mondmasker.app>')
+USER_EMAIL_SUBJECT_PREFIX = env('DJANGO_USER_EMAIL_SUBJECT_PREFIX', default='')
+EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Mondmasker.app]%s ' % USER_EMAIL_SUBJECT_PREFIX)
+SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
+
+# Anymail with Mailgun
+INSTALLED_APPS += ['anymail', ]
+ANYMAIL = {
+    'MAILGUN_API_KEY': env('DJANGO_MAILGUN_API_KEY'),
+    'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN')
+}
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
