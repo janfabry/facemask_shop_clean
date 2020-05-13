@@ -56,7 +56,7 @@ DJANGO_APPS = [
 OSCAR_CORE_APPS = [
     'oscar',
     'oscar.apps.analytics',
-    'oscar.apps.checkout',
+    # 'oscar.apps.checkout',
     'oscar.apps.address',
     'oscar.apps.shipping',
     'oscar.apps.catalogue',
@@ -65,7 +65,7 @@ OSCAR_CORE_APPS = [
     # 'oscar.apps.basket',
     'oscar.apps.payment',
     'oscar.apps.offer',
-    'oscar.apps.order',
+    # 'oscar.apps.order',
     'oscar.apps.customer',
     'oscar.apps.search',
     'oscar.apps.voucher',
@@ -84,6 +84,9 @@ OSCAR_CORE_APPS = [
     'oscar.apps.dashboard.communications',
     'oscar.apps.dashboard.shipping',
 ]
+OSCAR_EXTRA_APPS = [
+    'mollie_oscar',
+]
 OSCAR_THIRD_PARTY_APPS = [
     'widget_tweaks',
     'haystack',
@@ -94,12 +97,14 @@ OSCAR_THIRD_PARTY_APPS = [
 THIRD_PARTY_APPS = []
 OSCAR_LOCAL_APPS = [
     'facemask_shop.basket.apps.BasketConfig',
+    'facemask_shop.checkout.apps.CheckoutConfig',
+    'facemask_shop.order.apps.OrderConfig',
 ]
 LOCAL_APPS = [
     'facemask_shop.editor.apps.EditorConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + OSCAR_CORE_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + OSCAR_LOCAL_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + OSCAR_CORE_APPS + OSCAR_EXTRA_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + OSCAR_LOCAL_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -210,6 +215,33 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-OSCAR_SHOP_NAME = 'Facemaskme'
+OSCAR_SHOP_NAME = env('DJANGO_OSCAR_SHOP_NAME', default='Mondmasker.app')
 OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_DEFAULT_CURRENCY = 'EUR'
+OSCAR_HIDDEN_FEATURES = ('reviews', 'wishlist')
+
+
+# Status pipeline
+class OSCAR_STATUSES:
+    PENDING = 'Pending payment'
+    PAID = 'Being processed'
+    CANCELLED = 'Cancelled'
+
+
+OSCAR_INITIAL_ORDER_STATUS = OSCAR_INITIAL_LINE_STATUS = OSCAR_STATUSES.PENDING
+OSCAR_ORDER_STATUS_PIPELINE = {
+    OSCAR_STATUSES.PENDING: (OSCAR_STATUSES.PAID, OSCAR_STATUSES.CANCELLED,),
+    OSCAR_STATUSES.PAID: (OSCAR_STATUSES.PAID, OSCAR_STATUSES.CANCELLED,),
+    OSCAR_STATUSES.CANCELLED: (),
+}
+OSCAR_MOLLIE_CONFIRMED_STATUSES = [OSCAR_STATUSES.PAID]
+OSCAR_MOLLIE_HTTPS = env.bool('DJANGO_OSCAR_MOLLIE_HTTPS', True)
+
+# Mollie settings
+MOLLIE_API_KEY = env('DJANGO_MOLLIE_API_KEY', default='dummy-mollie-key')
+MOLLIE_STATUS_MAPPING = {
+    'Paid': OSCAR_STATUSES.PAID,
+    'Pending': OSCAR_STATUSES.PENDING,
+    'Open': OSCAR_STATUSES.PENDING,
+    'Cancelled': OSCAR_STATUSES.CANCELLED,
+}

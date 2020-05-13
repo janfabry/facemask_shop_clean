@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(apps.get_app_config('oscar').urls[0])),
     path('editor/', include('facemask_shop.editor.urls', namespace='editor')),
+    path('mollie/', include(('mollie_oscar.urls', 'mollie_oscar'), namespace='mollie_oscar')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
