@@ -176,6 +176,11 @@ AUTHENTICATION_BACKENDS = (
 
 # Email
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
+                         default='Mondmasker.app <info@mondmasker.app>')
+SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
+USER_EMAIL_SUBJECT_PREFIX = env('DJANGO_USER_EMAIL_SUBJECT_PREFIX', default='')
+EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Mondmasker.app]%s ' % USER_EMAIL_SUBJECT_PREFIX)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -216,6 +221,7 @@ HAYSTACK_CONNECTIONS = {
 }
 
 OSCAR_SHOP_NAME = env('DJANGO_OSCAR_SHOP_NAME', default='Mondmasker.app')
+OSCAR_FROM_EMAIL = DEFAULT_FROM_EMAIL
 OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_DEFAULT_CURRENCY = 'EUR'
 OSCAR_HIDDEN_FEATURES = ('reviews', 'wishlist')

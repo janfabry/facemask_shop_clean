@@ -39,11 +39,6 @@ MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/"
 
 # EMAIL
 # ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='Mondmasker.app <info@mondmasker.app>')
-USER_EMAIL_SUBJECT_PREFIX = env('DJANGO_USER_EMAIL_SUBJECT_PREFIX', default='')
-EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Mondmasker.app]%s ' % USER_EMAIL_SUBJECT_PREFIX)
-SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 # Anymail with Mailgun
 INSTALLED_APPS += ['anymail', ]
