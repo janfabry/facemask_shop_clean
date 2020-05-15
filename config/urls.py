@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.apps import apps
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -23,14 +24,18 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
-    path('', include(apps.get_app_config('oscar').urls[0])),
     path('editor/', include('facemask_shop.editor.urls', namespace='editor')),
     path('mollie/', include(('mollie_oscar.urls', 'mollie_oscar'), namespace='mollie_oscar')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Prefix Oscar URLs with language codes
+urlpatterns += i18n_patterns(
+    path('', include(apps.get_app_config('oscar').urls[0])),
+)
 
 if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
     if 'debug_toolbar' in settings.INSTALLED_APPS:
         import debug_toolbar
         urlpatterns = [
