@@ -19,10 +19,11 @@
 
 {% block extrahead %}
 {{ block.super }}
-<script src="{% static "editor/playcanvas/playcanvas-stable.min.js" %}"></script>
+{% static "editor/playcanvas/3/" as pc_prefix %}
+<script src="{{ pc_prefix }}playcanvas-stable.min.js" %}"></script>
 <script>
-ASSET_PREFIX = "{% get_static_prefix %}editor/playcanvas/";
-SCRIPT_PREFIX = "{% get_static_prefix %}editor/playcanvas/";
+ASSET_PREFIX = "{{ pc_prefix }}";
+SCRIPT_PREFIX = "{{ pc_prefix }}";
 SCENE_PATH = "916290.json";
 CONTEXT_OPTIONS = {
     'antialias': true,
@@ -30,8 +31,8 @@ CONTEXT_OPTIONS = {
     'preserveDrawingBuffer': false,
     'preferWebGl2': true
 };
-SCRIPTS = [ 30591974, 30591975, 30591976, 30591977, 30592936, 30620114, 30628754, 30629739 ];
-CONFIG_FILENAME = "{% static "editor/playcanvas/config.json" %}";
+SCRIPTS = [ 30592936, 30620114, 30628754, 30803527, 30842522, 30932427, 30980131, 30981096, 30989281, 30989768, 30996399 ];
+CONFIG_FILENAME = "{{ pc_prefix }}config.json";
 INPUT_SETTINGS = {
     useKeyboard: true,
     useMouse: true,
@@ -47,13 +48,15 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 
 {% block extrastyles %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static "editor/playcanvas/styles.css" %}" />
+{% static "editor/playcanvas/3/" as pc_prefix %}
+<link rel="stylesheet" href="{{ pc_prefix }}styles.css" />
 <style>/* Empty block for PlayCanvas */</style>
 {% endblock %}
 
 {% block extrascripts %}
 {{ block.super }}
-<script src="{% static "editor/playcanvas/__start__.js" %}"></script>
+{% static "editor/playcanvas/3/" as pc_prefix %}
+<script src="{{ pc_prefix }}__start__.js"></script>
 <script>
 var facemask_editor_canvas = document.getElementById('application-canvas');
 document.getElementById('facemask-editor').appendChild(facemask_editor_canvas);
