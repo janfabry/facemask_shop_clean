@@ -2,6 +2,13 @@
 
 {% load static %}
 
+{% comment %}
+Disable a lot of blocks here
+{% endcomment %}
+{% block breadcrumbs %}{% endblock %}
+{% block product_info %}{% endblock %}
+
+
 {% block product_gallery %}
 <div class="col-sm-6">
     <div id="product_gallery" class="carousel">
@@ -12,14 +19,22 @@
                 </div>
             </div>
         </div>
+        <input id="fileUploadInput" type="file" accept="image/*" />
     </div>
 </div>
 {% endblock %}
 
+{% block product_basket_form %}
+{{ block.super }}
+{% include "oscar/basket/partials/basket_quick.html" %}
+{% comment %}
+{% block mini_basket %}{% include "oscar/partials/mini_basket.html" %}{% endblock %}
+{% endcomment %}
+{% endblock %}
 
 {% block extrahead %}
 {{ block.super }}
-{% static "editor/playcanvas/3/" as pc_prefix %}
+{% static "editor/playcanvas/4/" as pc_prefix %}
 <script src="{{ pc_prefix }}playcanvas-stable.min.js" %}"></script>
 <script>
 ASSET_PREFIX = "{{ pc_prefix }}";
@@ -48,18 +63,38 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 
 {% block extrastyles %}
 {{ block.super }}
-{% static "editor/playcanvas/3/" as pc_prefix %}
+{% static "editor/playcanvas/4/" as pc_prefix %}
 <link rel="stylesheet" href="{{ pc_prefix }}styles.css" />
 <style>/* Empty block for PlayCanvas */</style>
 {% endblock %}
 
 {% block extrascripts %}
 {{ block.super }}
-{% static "editor/playcanvas/3/" as pc_prefix %}
+{% static "editor/playcanvas/4/" as pc_prefix %}
 <script src="{{ pc_prefix }}__start__.js"></script>
 <script>
 var facemask_editor_canvas = document.getElementById('application-canvas');
 document.getElementById('facemask-editor').appendChild(facemask_editor_canvas);
+
+var app = pc.Application.getApplication();
+app.on("start", function () {
+    $('#add_to_basket_form').on('submit', function(e) {
+        e.preventDefault();
+
+        var orderForm = this;
+
+        uploadFile(EDITOR_UPLOAD_URL, function(response) {
+            if (response.success) {
+                $('#id_mask-image-id').val(response.mask_id);
+                orderForm.submit();
+            } else {
+                console.error(response);
+                alert(response.error || response);
+            }
+        });
+    });
+
+    $('#fileUploadInput').on('change', handleImageInputChange);
+});
 </script>
-<script src="{% static "editor/js/editor.js" %}"></script>
 {% endblock %}

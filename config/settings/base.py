@@ -125,7 +125,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            str(ROOT_DIR.path('templates')),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -231,7 +233,7 @@ OSCAR_SHOP_NAME = env('DJANGO_OSCAR_SHOP_NAME', default='Mondmasker.app')
 OSCAR_FROM_EMAIL = DEFAULT_FROM_EMAIL
 OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_DEFAULT_CURRENCY = 'EUR'
-OSCAR_HIDDEN_FEATURES = ('reviews', 'wishlist')
+OSCAR_HIDDEN_FEATURES = ('reviews', 'wishlists')
 
 
 # Status pipeline
