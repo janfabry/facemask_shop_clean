@@ -70,10 +70,10 @@ OSCAR_CORE_APPS = [
     'oscar.apps.search',
     'oscar.apps.voucher',
     'oscar.apps.wishlists',
-    'oscar.apps.dashboard',
+    # 'oscar.apps.dashboard',
     'oscar.apps.dashboard.reports',
     'oscar.apps.dashboard.users',
-    'oscar.apps.dashboard.orders',
+    # 'oscar.apps.dashboard.orders',
     'oscar.apps.dashboard.catalogue',
     'oscar.apps.dashboard.offers',
     'oscar.apps.dashboard.partners',
@@ -99,6 +99,8 @@ OSCAR_LOCAL_APPS = [
     'facemask_shop.basket.apps.BasketConfig',
     'facemask_shop.checkout.apps.CheckoutConfig',
     'facemask_shop.order.apps.OrderConfig',
+    'facemask_shop.dashboard.apps.DashboardConfig',
+    'facemask_shop.dashboard.orders.apps.OrdersDashboardConfig',
 ]
 LOCAL_APPS = [
     'facemask_shop.editor.apps.EditorConfig',
