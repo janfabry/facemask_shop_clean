@@ -1,5 +1,5 @@
 {% extends "oscar/catalogue/detail.html" %}
-
+{% load i18n %}
 {% load static %}
 
 {% comment %}
@@ -20,6 +20,10 @@ Disable a lot of blocks here
             </div>
         </div>
         <input id="fileUploadInput" type="file" accept="image/*" />
+        <input id="toggleRotationButton" type="button" value="{% trans "Rotate mask" %}" />
+        <input id="rotateImageButton" type="button" value="{% trans "Rotate image" %}" />
+        <input id="handleSelfieButton" type="button" value="{% trans "Handle selfie" %}" />
+        <input id="captureSelfieButton" type="button" value="{% trans "Capture selfie" %}" />
     </div>
 </div>
 {% endblock %}
@@ -34,7 +38,7 @@ Disable a lot of blocks here
 
 {% block extrahead %}
 {{ block.super }}
-{% static "editor/playcanvas/5/" as pc_prefix %}
+{% static "editor/playcanvas/6/" as pc_prefix %}
 <script src="{{ pc_prefix }}playcanvas-stable.min.js" %}"></script>
 <script>
 ASSET_PREFIX = "{{ pc_prefix }}";
@@ -46,7 +50,7 @@ CONTEXT_OPTIONS = {
     'preserveDrawingBuffer': false,
     'preferWebGl2': true
 };
-SCRIPTS = [ 30592936, 30620114, 30628754, 30803527, 30842522, 30932427, 30980131, 30981096, 30989281, 30989768, 30996399 ];
+SCRIPTS = [ 31158195, 31131722, 30592936, 30620114, 30628754, 30803527, 30842522, 30932427, 30980131, 30981096, 30989281, 30989768, 30996399, 31153188 ];
 CONFIG_FILENAME = "{{ pc_prefix }}config.json";
 INPUT_SETTINGS = {
     useKeyboard: true,
@@ -63,14 +67,14 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 
 {% block extrastyles %}
 {{ block.super }}
-{% static "editor/playcanvas/5/" as pc_prefix %}
+{% static "editor/playcanvas/6/" as pc_prefix %}
 <link rel="stylesheet" href="{{ pc_prefix }}styles.css" />
 <style>/* Empty block for PlayCanvas */</style>
 {% endblock %}
 
 {% block extrascripts %}
 {{ block.super }}
-{% static "editor/playcanvas/5/" as pc_prefix %}
+{% static "editor/playcanvas/6/" as pc_prefix %}
 <script src="{{ pc_prefix }}__start__.js"></script>
 <script>
 var facemask_editor_canvas = document.getElementById('application-canvas');
@@ -95,6 +99,10 @@ app.on("start", function () {
     });
 
     $('#fileUploadInput').on('change', handleImageInputChange);
+    $('#toggleRotationButton').on('click', toggleRotation);
+    $('#rotateImageButton').on('click', rotateImage);
+    $('#handleSelfieButton').on('click', handleSelfie);
+    $('#captureSelfieButton').on('click', captureSelfie);
 });
 </script>
 {% endblock %}
