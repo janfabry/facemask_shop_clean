@@ -19,11 +19,11 @@ Disable a lot of blocks here
                 </div>
             </div>
         </div>
-        <input id="fileUploadInput" type="file" accept="image/*" />
-        <input id="toggleRotationButton" type="button" value="{% trans "Rotate mask" %}" />
-        <input id="rotateImageButton" type="button" value="{% trans "Rotate image" %}" />
-        <input id="handleSelfieButton" type="button" value="{% trans "Handle selfie" %}" />
-        <input id="captureSelfieButton" type="button" value="{% trans "Capture selfie" %}" />
+        <input type="file" id="fileUploadInput" class="filestyle" data-input="false" data-buttonText="">
+        <button id="toggleRotationButton" class="btn btn-default" title="{% trans "Rotate mask" %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+        <button id="rotateImageButton" class="btn btn-default" title="{% trans "Rotate image" %}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></button>
+        <button id="handleSelfieButton" class="btn btn-default" title="{% trans "Use selfie" %}"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></button>
+        <button id="captureSelfieButton" class="btn btn-default" title="{% trans "Capture" %}" disabled><span class="glyphicon glyphicon-record" aria-hidden="true"></span></button>
     </div>
 </div>
 {% endblock %}
@@ -69,13 +69,24 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 {{ block.super }}
 {% static "editor/playcanvas/6/" as pc_prefix %}
 <link rel="stylesheet" href="{{ pc_prefix }}styles.css" />
-<style>/* Empty block for PlayCanvas */</style>
+<style>
+/* Empty block for PlayCanvas */
+
+.glyphicon {
+    font-family: "Glyphicons Halflings" !important;
+}
+
+.bootstrap-filestyle {
+    display: inline-block;
+}
+</style>
 {% endblock %}
 
 {% block extrascripts %}
 {{ block.super }}
 {% static "editor/playcanvas/6/" as pc_prefix %}
 <script src="{{ pc_prefix }}__start__.js"></script>
+<script src="{% static "editor/js/bootstrap-filestyle.min.js" %}"></script>
 <script>
 var facemask_editor_canvas = document.getElementById('application-canvas');
 document.getElementById('facemask-editor').appendChild(facemask_editor_canvas);
@@ -99,9 +110,15 @@ app.on("start", function () {
     });
 
     $('#fileUploadInput').on('change', handleImageInputChange);
-    $('#toggleRotationButton').on('click', toggleRotation);
+    $('#toggleRotationButton').on('click', toggleRotation).on('click', function() {
+        $(this).children('.glyphicon')
+            .toggleClass('glyphicon-play', !shouldRotate)
+            .toggleClass('glyphicon-pause', shouldRotate);
+    });
     $('#rotateImageButton').on('click', rotateImage);
-    $('#handleSelfieButton').on('click', handleSelfie);
+    $('#handleSelfieButton').on('click', handleSelfie).on('click', function() {
+        $('#captureSelfieButton').prop('disabled', false);
+    });
     $('#captureSelfieButton').on('click', captureSelfie);
 });
 </script>
