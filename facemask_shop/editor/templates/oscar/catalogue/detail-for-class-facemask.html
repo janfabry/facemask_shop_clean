@@ -19,7 +19,7 @@ Disable a lot of blocks here
                 </div>
             </div>
         </div>
-        <input type="file" id="fileUploadInput" class="filestyle" data-input="false" data-buttonText="">
+        <input type="file" id="fileUploadInput" class="filestyle" data-input="false" data-buttonText="" data-badge="false">
         <button id="toggleRotationButton" class="btn btn-default" title="{% trans "Rotate mask" %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
         <button id="rotateImageButton" class="btn btn-default" title="{% trans "Rotate image" %}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></button>
         <button id="handleSelfieButton" class="btn btn-default" title="{% trans "Use selfie" %}"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></button>
@@ -38,7 +38,7 @@ Disable a lot of blocks here
 
 {% block extrahead %}
 {{ block.super }}
-{% static "editor/playcanvas/6/" as pc_prefix %}
+{% static "editor/playcanvas/7/" as pc_prefix %}
 <script src="{{ pc_prefix }}playcanvas-stable.min.js" %}"></script>
 <script>
 ASSET_PREFIX = "{{ pc_prefix }}";
@@ -67,7 +67,7 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 
 {% block extrastyles %}
 {{ block.super }}
-{% static "editor/playcanvas/6/" as pc_prefix %}
+{% static "editor/playcanvas/7/" as pc_prefix %}
 <link rel="stylesheet" href="{{ pc_prefix }}styles.css" />
 <style>
 /* Empty block for PlayCanvas */
@@ -84,7 +84,7 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 
 {% block extrascripts %}
 {{ block.super }}
-{% static "editor/playcanvas/6/" as pc_prefix %}
+{% static "editor/playcanvas/7/" as pc_prefix %}
 <script src="{{ pc_prefix }}__start__.js"></script>
 <script src="{% static "editor/js/bootstrap-filestyle.min.js" %}"></script>
 <script>
