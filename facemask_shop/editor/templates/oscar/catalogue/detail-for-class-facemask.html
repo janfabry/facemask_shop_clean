@@ -19,11 +19,23 @@ Disable a lot of blocks here
                 </div>
             </div>
         </div>
-        <input type="file" id="fileUploadInput" class="filestyle" data-input="false" data-buttonText="" data-badge="false">
-        <button id="toggleRotationButton" class="btn btn-default" title="{% trans "Rotate mask" %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-        <button id="rotateImageButton" class="btn btn-default" title="{% trans "Rotate image" %}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></button>
-        <button id="handleSelfieButton" class="btn btn-default" title="{% trans "Use selfie" %}"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></button>
-        <button id="captureSelfieButton" class="btn btn-default" title="{% trans "Capture" %}" disabled><span class="glyphicon glyphicon-record" aria-hidden="true"></span></button>
+        {% if product.id == products.own_design.id %}
+        <ol>
+            <li><input type="file" id="fileUploadInput" class="filestyle" data-input="false" data-buttonText="Kies een afbeelding" data-badge="false"></li>
+            <li><button id="rotateImageButton" class="btn btn-default"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Roteer beeld</button></li>
+            <li>Verschuif de afbeelding op de juiste plaats met je vingen of muis</li>
+            <li><button id="toggleRotationButton" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Looks good?</button> Bestellen maar! Begin anders opnieuw bij 1</li>
+        </ol>
+        {% endif %}
+        {% if product.id == products.selfie.id %}
+        <ol>
+            <li><button id="handleSelfieButton" class="btn btn-default"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Start camera</button></li>
+            <li>Zet je neus en mond op de juiste plaats</li>
+            <li><button id="captureSelfieButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Leg foto vast</button></li>
+            <li><button id="toggleRotationButton" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Looks good?</button> Bestellen maar! Begin anders opnieuw bij 1</li>
+        </ol>
+
+        {% endif %}
     </div>
 </div>
 {% endblock %}
