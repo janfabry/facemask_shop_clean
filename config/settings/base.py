@@ -110,7 +110,7 @@ LOCAL_APPS = [
     'facemask_shop.editor.apps.EditorConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + OSCAR_CORE_APPS + OSCAR_EXTRA_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + OSCAR_LOCAL_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + OSCAR_LOCAL_APPS + OSCAR_CORE_APPS + OSCAR_EXTRA_APPS + OSCAR_THIRD_PARTY_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
