@@ -58,8 +58,8 @@ OSCAR_CORE_APPS = [
     'oscar.apps.analytics',
     # 'oscar.apps.checkout',
     'oscar.apps.address',
-    'oscar.apps.shipping',
     'oscar.apps.catalogue',
+    # 'oscar.apps.shipping',
     'oscar.apps.catalogue.reviews',
     'oscar.apps.partner',
     # 'oscar.apps.basket',
@@ -99,6 +99,7 @@ OSCAR_LOCAL_APPS = [
     'facemask_shop.basket.apps.BasketConfig',
     'facemask_shop.checkout.apps.CheckoutConfig',
     'facemask_shop.order.apps.OrderConfig',
+    'facemask_shop.shipping.apps.ShippingConfig',
     'facemask_shop.dashboard.apps.DashboardConfig',
     'facemask_shop.dashboard.orders.apps.OrdersDashboardConfig',
 ]
