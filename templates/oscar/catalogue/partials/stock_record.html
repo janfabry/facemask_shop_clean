@@ -1,0 +1,12 @@
+{% load currency_filters %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{% if session.price.exists %}
+<p><span class="price_color">{{ session.price.incl_tax|currency:session.price.currency }} (BTW incl.)</span>
+<br/>{{ session.price.excl_tax|currency:session.price.currency }} (BTW excl.)</p>
+{% else %}
+<p class="price_color">&nbsp;</p>
+{% endif %}
