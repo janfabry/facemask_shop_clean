@@ -8,6 +8,8 @@ from django.db import models
 RESOURCE_DIR = os.path.join(os.path.dirname(__file__), 'resources/')
 MASK_WIDTH_PX = 1680
 MASK_HEIGHT_PX = 945
+MASK_THUMBNAIL_WIDTH_PX = 160
+MASK_THUMBNAIL_HEIGHT_PX = 90
 MASK_IMAGE_PATH = os.path.join(RESOURCE_DIR, 'mask_image_mask.png')
 PROFILE_RGB_ADOBE = os.path.join(RESOURCE_DIR, 'icc_profiles/RGB/AdobeRGB1998.icc')
 PROFILE_CMYK_US_WEB_COATED = os.path.join(RESOURCE_DIR, 'icc_profiles/CMYK/USWebCoatedSWOP.icc')
@@ -45,4 +47,19 @@ class Facemask(models.Model):
 
         mask_image_name = 'mask_image_%s.jpg' % (self.id,)
         self.mask_image = SimpleUploadedFile(mask_image_name, mask_image_buffer.getvalue(), 'image/jpeg')
+        self.save()
+
+    def create_thumbnail(self, override=False):
+        if self.thumbnail and not override:
+            return False
+        self.create_mask_image(override)
+
+        mask_image = Image.open(self.mask_image)
+        thumbnail_image = mask_image.resize((MASK_THUMBNAIL_WIDTH_PX, MASK_THUMBNAIL_HEIGHT_PX))
+
+        thumbnail_image_buffer = BytesIO()
+        thumbnail_image.save(fp=thumbnail_image_buffer, format='JPEG')
+
+        thumbnail_image_name = 'thumbnail_image_%s.jpg' % (self.id,)
+        self.thumbnail = SimpleUploadedFile(thumbnail_image_name, thumbnail_image_buffer.getvalue(), 'image/jpeg')
         self.save()
