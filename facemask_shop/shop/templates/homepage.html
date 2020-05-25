@@ -1,0 +1,105 @@
+{% extends "oscar/layout.html" %}
+{% load staticfiles %}
+{% load image_tags %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "homepage/css/homepage.css" %}" />
+{% endblock %}
+
+{% block layout %}
+<div class="container-fluid page">
+    <div class="page_inner">
+
+        <section class="bgimage" style="background-image: url('{% static "homepage/img/mondmasker-jos.jpeg" %}')">
+
+        </section>
+
+        <div id="hero" class="jumbotron">
+            <h1>Blijf jezelf</h1>
+            <p>Ook in mondmasker-tijden.</p>
+        </div>
+
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        {% with product=products.own_design %}
+        <div class="col-lg-6 product">
+            {% with image=product.primary_image %}
+                {% oscar_thumbnail image.original "x155" upscale=False as thumb %}
+                <img class="img-circle" src="{{ thumb.url }}" alt="{{ product.get_title }}" width="140" height="140">
+            {% endwith %}
+            <h2>Eigen afbeelding</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            {% include "oscar/catalogue/partials/stock_record.html" %}
+            <p><a class="btn btn-default" href="{{ product.get_absolute_url }}" role="button">Bestel nu &raquo;</a></p>
+        </div><!-- /.col-lg-6 -->
+        {% endwith %}
+        {% with product=products.selfie %}
+        <div class="col-lg-6 product">
+            {% with image=product.primary_image %}
+            {% oscar_thumbnail image.original "x155" upscale=False as thumb %}
+            <img class="img-circle" src="{{ thumb.url }}" alt="{{ product.get_title }}" width="140" height="140">
+            {% endwith %}
+            <h2>Jouw gezicht</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            {% include "oscar/catalogue/partials/stock_record.html" %}
+            <p><a class="btn btn-default" href="{{ product.get_absolute_url }}" role="button">Bestel nu &raquo;</a></p>
+        </div><!-- /.col-lg-6 -->
+        {% endwith %}
+    </div><!-- /.row -->
+
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 col-md-push-5">
+            <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5 col-md-pull-7">
+            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- /END THE FEATURETTES -->
+
+
+
+</div><!-- /.container -->
+    </div>
+</div>
+{% endblock %}

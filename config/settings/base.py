@@ -103,6 +103,7 @@ OSCAR_LOCAL_APPS = [
     'facemask_shop.dashboard.orders.apps.OrdersDashboardConfig',
 ]
 LOCAL_APPS = [
+    'facemask_shop.shop.apps.ShopConfig',
     'facemask_shop.editor.apps.EditorConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -234,7 +235,7 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-OSCAR_SHOP_NAME = env('DJANGO_OSCAR_SHOP_NAME', default='Mondmasker.app')
+OSCAR_SHOP_NAME = env('DJANGO_OSCAR_SHOP_NAME', default='Facemasksare.cool')
 OSCAR_FROM_EMAIL = DEFAULT_FROM_EMAIL
 OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_DEFAULT_CURRENCY = 'EUR'
@@ -265,3 +266,9 @@ MOLLIE_STATUS_MAPPING = {
     'Open': OSCAR_STATUSES.PENDING,
     'Cancelled': OSCAR_STATUSES.CANCELLED,
 }
+
+
+FACEMASKME_PRODUCT_IDS = env.dict('DJANGO_FACEMASKME_PRODUCT_IDS', default={
+    'own_design': '1',
+    'selfie': '3',
+})

@@ -30,7 +30,7 @@ urlpatterns = [
 
 # Prefix Oscar URLs with language codes
 urlpatterns += i18n_patterns(
-    path('', include(apps.get_app_config('oscar').urls[0])),
+    path('', include(apps.get_app_config('shop').urls[0])),
 )
 
 if settings.DEBUG:
