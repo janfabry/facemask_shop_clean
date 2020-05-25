@@ -9030,3 +9030,6 @@ input[type="number"][id*="quantity"] {
     display: none !important;
   }
 }
+.add-to-basket {
+  width: auto;
+}
