@@ -52,7 +52,6 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
         # Overrule this by creating an Order before raising using this copy-pasted method
         # from the Oscar package.
         logger.info(u"Order #%s: payment started, placing order", order_number)
-        print(submission)
         try:
             return self.handle_order_placement(
                 order_number, submission['user'],
@@ -73,3 +72,7 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
     def send_confirmation_message(self, order, code, **kwargs):
         # Don't send the confirmation message before we know the Order is paid for.
         pass
+
+
+class ThankYouView(oscar_views.ThankYouView):
+    template_name = 'checkout/thank_you.html'

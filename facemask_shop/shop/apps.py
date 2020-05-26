@@ -1,7 +1,6 @@
-from django.conf import settings
+from django.apps import apps
 from django.conf.urls import url
 from django.urls import reverse_lazy
-from django.views.generic.base import RedirectView, TemplateView
 
 from oscar.config import Shop
 from oscar.core.loading import get_class
@@ -12,6 +11,8 @@ class ShopConfig(Shop):
 
     def ready(self):
         super().ready()
+
+        self.order_app = apps.get_app_config('order')
 
         self.homepage_view = get_class('shop.views', 'HomepageView')
 
@@ -30,6 +31,7 @@ class ShopConfig(Shop):
             url(r'^search/', self.search_app.urls),
             url(r'^dashboard/', self.dashboard_app.urls),
             url(r'^offers/', self.offer_app.urls),
+            url(r'^order/', self.order_app.urls),
 
             # Password reset - as we're using Django's default view functions,
             # we can't namespace these urls as that prevents

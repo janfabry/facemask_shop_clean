@@ -14,7 +14,7 @@ class BasketConfig(apps.BasketConfig):
     def get_urls(self):
         urls = super().get_urls()
         urls += [
-            url(r'^line/(?P<pk>\d+)/thumbnail/', self.line_thumbnail_view.as_view(), name='line-thumbnail'),
-            url(r'^line/(?P<pk>\d+)/full/', self.line_full_view.as_view(), name='line-full'),
+            url(r'^line/(?P<pk>\d+)/thumbnail/$', self.line_thumbnail_view.as_view(), name='line-thumbnail'),
+            url(r'^line/(?P<pk>\d+)/full/$', self.line_full_view.as_view(), name='line-full'),
         ]
         return self.post_process_urls(urls)
