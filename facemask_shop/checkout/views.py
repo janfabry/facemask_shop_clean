@@ -1,8 +1,10 @@
 import logging
 
+from django.urls import reverse
 from django.utils import six
 
 from oscar.apps.checkout import views as oscar_views
+from oscar.apps.checkout import exceptions
 from oscar.apps.payment.models import Source
 from oscar.apps.payment.exceptions import RedirectRequired
 
@@ -14,6 +16,17 @@ logger = logging.getLogger('oscar.checkout')
 class PaymentDetailsView(oscar_views.PaymentDetailsView):
     template_name = 'checkout/payment_details.html'
     template_name_preview = 'checkout/preview.html'
+
+    def get_skip_conditions(self, request):
+        skip_conditions = super().get_skip_conditions(request)
+        if not self.preview:
+            skip_conditions += ['skip_no_payment_options']
+        return skip_conditions
+
+    def skip_no_payment_options(self, request):
+        raise exceptions.PassedSkipCondition(
+            url=reverse('checkout:preview')
+        )
 
     def handle_place_order_submission(self, request):
         submission_data = self.build_submission()
