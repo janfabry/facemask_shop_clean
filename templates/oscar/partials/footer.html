@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load static %}
+<footer class="footer container-fluid">
+    {% block footer %}
+    <ul class="footer_links inline">
+        <li>Copyright 2020 White Light NV</li>
+        <li><a href="{% static "nl/terms-and-conditions.pdf" %}">Algemene voorwaarden</a></li>
+    </ul>
+    {% endblock %}
+</footer>

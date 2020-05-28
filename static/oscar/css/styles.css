@@ -9033,3 +9033,17 @@ input[type="number"][id*="quantity"] {
 .add-to-basket {
   width: auto;
 }
+.page_inner {
+  margin-bottom: 20px;
+}
+ul.footer_links {
+  list-style-type: none;
+}
+ul.inline li {
+  display: inline-block;
+  margin-right: 20px;
+}
+footer a,
+footer a:hover {
+  color: white;
+}
