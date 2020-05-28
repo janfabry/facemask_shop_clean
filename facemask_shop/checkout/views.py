@@ -10,6 +10,8 @@ from oscar.apps.payment.exceptions import RedirectRequired
 
 from mollie_oscar.facade import Facade
 
+from facemask_shop.checkout.forms import TermsAndConditionsForm
+
 logger = logging.getLogger('oscar.checkout')
 
 
@@ -28,7 +30,14 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
             url=reverse('checkout:preview')
         )
 
+    def get_context_data(self, **kwargs):
+        kwargs.setdefault('tc_form', TermsAndConditionsForm())
+        return super().get_context_data(**kwargs)
+
     def handle_place_order_submission(self, request):
+        tc_form = TermsAndConditionsForm(request.POST)
+        if not tc_form.is_valid():
+            return self.render_preview(request, tc_form=tc_form)
         submission_data = self.build_submission()
         submission_data['payment_kwargs']['submission'] = submission_data
         return self.submit(**submission_data)
