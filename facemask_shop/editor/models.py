@@ -16,9 +16,14 @@ PROFILE_CMYK_US_WEB_COATED = os.path.join(RESOURCE_DIR, 'icc_profiles/CMYK/USWeb
 
 
 class Facemask(models.Model):
+    # The image, with a mesh applied, from the PlayCanvas editor
     full_image = models.ImageField(upload_to='facemask/full_image/')
+    # The image uploaded or captured by the user, no mesh applied
+    original_image = models.ImageField(upload_to='facemask/original_image/', blank=True, null=True)
+    # A thumbnail of the mask_image
     thumbnail = models.ImageField(upload_to='facemask/thumbnail/', blank=True, null=True)
 
+    # The image, resized and with mask applied
     mask_image = models.ImageField(upload_to='facemask/mask_image/', blank=True, null=True)
 
     def get_profile_or_default(self, image: Image.Image) -> ImageCms.ImageCmsProfile:
