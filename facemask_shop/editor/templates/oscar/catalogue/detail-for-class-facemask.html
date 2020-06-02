@@ -30,6 +30,7 @@ Disable a lot of blocks here
         {% if product.id == products.selfie.id %}
         <ol>
             <li><button id="handleSelfieButton" class="btn btn-default"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Start camera</button></li>
+            <li><button id="switchCameraButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Wissel camera</button></li>
             <li>Zet je neus en mond op de juiste plaats</li>
             <li><button id="captureSelfieButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Leg foto vast</button></li>
             <li><button id="toggleRotationButton" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Looks good?</button> Bestellen maar! Begin anders opnieuw bij 1</li>
@@ -139,7 +140,7 @@ app.on("start", function () {
             .toggleClass('glyphicon-pause', shouldRotate);
     });
     $('#rotateImageButton').on('click', rotateImage);
-    $('#handleSelfieButton')
+    $('#handleSelfieButton, #switchCameraButton')
         .on('click', function() {
             if (window.facingMode === 'user') {
                 window.facingMode = 'environment';
@@ -150,6 +151,7 @@ app.on("start", function () {
         .on('click', handleSelfie)
         .on('click', function() {
             $('#captureSelfieButton').prop('disabled', false);
+            $('#switchCameraButton').prop('disabled', false);
         });
     $('#captureSelfieButton').on('click', captureSelfie);
 });
