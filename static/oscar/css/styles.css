@@ -5007,23 +5007,23 @@ a.badge:focus {
   margin-left: 3px;
 }
 .jumbotron {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
-  color: inherit;
-  background-color: #eeeeee;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  color: white;
+  background-color: #fe7ce8;
 }
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;
 }
 .jumbotron p {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 21px;
   font-weight: 200;
 }
 .jumbotron > hr {
-  border-top-color: #d5d5d5;
+  border-top-color: #fe49df;
 }
 .container .jumbotron,
 .container-fluid .jumbotron {
@@ -5036,13 +5036,13 @@ a.badge:focus {
 }
 @media screen and (min-width: 768px) {
   .jumbotron {
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding-top: 32px;
+    padding-bottom: 32px;
   }
   .container .jumbotron,
   .container-fluid .jumbotron {
-    padding-right: 60px;
-    padding-left: 60px;
+    padding-right: 40px;
+    padding-left: 40px;
   }
   .jumbotron h1,
   .jumbotron .h1 {
@@ -7974,7 +7974,7 @@ body {
   box-sizing: border-box;
 }
 .page .page_inner {
-  background: #fff;
+  background: #fe7ce8;
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
@@ -8644,7 +8644,7 @@ input[type="number"][id*="quantity"] {
   border-color: #bce8f1;
 }
 .well-blank {
-  background-color: #fff;
+  background-color: #fe7ce8;
   border-color: rgba(0, 0, 0, 0.1);
 }
 .carousel {
@@ -9046,4 +9046,15 @@ ul.inline li {
 footer a,
 footer a:hover {
   color: white;
+}
+.content,
+.marketing {
+  background-color: white;
+}
+.marketing {
+  padding-top: 40px;
+}
+container .jumbotron,
+.container-fluid .jumbotron {
+  border-radius: 0 0 6px 6px;
 }
