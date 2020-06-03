@@ -146,6 +146,7 @@ TEMPLATES = [
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.apps.customer.notifications.context_processors.notifications',
                 'oscar.core.context_processors.metadata',
+                'facemask_shop.context_processors.sentry',
             ],
         },
     },
@@ -230,6 +231,9 @@ MEDIA_URL = '/media/'
 sentry_sdk.init(
     integrations=[DjangoIntegration()]
 )
+SENTRY_FRONTEND_DSN = env('SENTRY_FRONTEND_DSN', default=None)
+SENTRY_FRONTEND_RELEASE = env('SENTRY_FRONTEND_RELEASE', default=env('SENTRY_RELEASE', default=None))
+SENTRY_FRONTEND_ENVIRONMENT = env('SENTRY_FRONTEND_ENVIRONMENT', default=env('SENTRY_ENVIRONMENT', default=None))
 
 # Oscar settings
 HAYSTACK_CONNECTIONS = {

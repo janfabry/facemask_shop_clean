@@ -51,7 +51,7 @@ Disable a lot of blocks here
 
 {% block extrahead %}
 {{ block.super }}
-{% static "editor/playcanvas/13/" as pc_prefix %}
+{% static "editor/playcanvas/14/" as pc_prefix %}
 <script src="{{ pc_prefix }}playcanvas-stable.min.js"></script>
 <script>
 ASSET_PREFIX = "{{ pc_prefix }}";
@@ -80,7 +80,7 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
 
 {% block extrastyles %}
 {{ block.super }}
-{% static "editor/playcanvas/13/" as pc_prefix %}
+{% static "editor/playcanvas/14/" as pc_prefix %}
 <link rel="stylesheet" href="{{ pc_prefix }}styles.css" />
 <style>
 /* Empty block for PlayCanvas */
@@ -108,7 +108,7 @@ video {
 
 {% block extrascripts %}
 {{ block.super }}
-{% static "editor/playcanvas/13/" as pc_prefix %}
+{% static "editor/playcanvas/14/" as pc_prefix %}
 <script src="{{ pc_prefix }}__start__.js"></script>
 <script src="{% static "editor/js/bootstrap-filestyle.min.js" %}"></script>
 <script>
@@ -122,13 +122,20 @@ app.on("start", function () {
 
         var orderForm = this;
 
-        uploadFile(EDITOR_UPLOAD_URL, function(response) {
-            if (response.success) {
+        uploadFile(EDITOR_UPLOAD_URL, function(err, response) {
+            if (!err && response.success) {
                 $('#id_mask-image-id').val(response.mask_id);
                 orderForm.submit();
             } else {
-                console.error(response);
-                alert(response.error || response);
+                if (window.Sentry) {
+                    if (err instanceof Error) {
+                        Sentry.captureException(err);
+                    } else {
+                        Sentry.captureMessage(err);
+                    }
+                }
+                console.error(err || response);
+                alert("Oeps, er ging iets mis bij het opslaan van je masker! Probeer het later opnieuw.");
             }
         });
     });

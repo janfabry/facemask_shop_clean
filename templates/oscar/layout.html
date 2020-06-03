@@ -50,6 +50,13 @@ settings file. This will enable the on-the-fly less compiler.
 
 {# Local scripts #}
 {% block scripts %}
+{% if sentry_config %}
+<script src="https://browser.sentry-cdn.com/5.16.0/bundle.min.js" integrity="sha384-8XeHBuZ2XhMbhyH74W/+6MLGL3PfryfC87kUgxZXJ/z3cUmSETfEZLMo4CPVxh1r" crossorigin="anonymous">
+</script>
+<script>
+Sentry.init({{ sentry_config }});
+</script>
+{% endif %}
 {{ block.super }}
 <!-- Twitter Bootstrap -->
 <script src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script>
