@@ -7,15 +7,25 @@ from django.db import models
 
 from oscar.apps.order.abstract_models import AbstractOrder
 from reportlab.graphics.barcode.qr import QrCodeWidget
-from reportlab.graphics.shapes import Drawing, Shape
+from reportlab.graphics.shapes import Drawing, Shape, STATE_DEFAULTS
 from reportlab.lib.colors import CMYKColorSep
 from reportlab.lib.utils import ImageReader
+from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from svglib.svglib import svg2rlg
 
 from facemask_shop.editor.models import Facemask
 
 RESOURCE_DIR = os.path.join(os.path.dirname(__file__), 'resources/')
+
+registerFont(TTFont('DejaVuSans', os.path.join(RESOURCE_DIR, 'fonts/DejaVuSans.ttf')))
+registerFont(TTFont('DejaVuSans-Bold', os.path.join(RESOURCE_DIR, 'fonts/DejaVuSans-Bold.ttf')))
+registerFont(TTFont('DejaVuSans-Oblique', os.path.join(RESOURCE_DIR, 'fonts/DejaVuSans-Oblique.ttf')))
+registerFont(TTFont('DejaVuSans-BoldOblique', os.path.join(RESOURCE_DIR, 'fonts/DejaVuSans-BoldOblique.ttf')))
+registerFontFamily('DejaVuSans', bold='DejaVuSans-Bold', italic='DejaVuSans-Oblique', boldItalic='DejaVuSans-BoldOblique')
+
+STATE_DEFAULTS['fontName'] = 'DejaVuSans'
 
 PAGE_WIDTH_PT = 805
 PAGE_HEIGHT_PT = 490
@@ -63,7 +73,8 @@ class Order(AbstractOrder):
         print_file_canvas = canvas.Canvas(
             print_file_buffer,
             pagesize=(PAGE_WIDTH_PT, PAGE_HEIGHT_PT),
-            enforceColorSpace='sep_cmyk'
+            enforceColorSpace='sep_cmyk',
+            initialFontName='DejaVuSans'
         )
         # For all order lines, make sure the mask images are created
         for line in self.lines.all():
@@ -106,7 +117,7 @@ class Order(AbstractOrder):
         w = b[2]-b[0]
         h = b[3]-b[1]
 
-        qr_drawing = Drawing(qr_size, qr_size, transform=[float(qr_size)/w, 0, 0, float(qr_size)/h, 0, 0])
+        qr_drawing = Drawing(qr_size, qr_size, transform=[float(qr_size)/w, 0, 0, float(qr_size)/h, 0, 0], initialFontName='DejaVuSans')
         qr_drawing.add(qr_widget)
         return qr_drawing
 
