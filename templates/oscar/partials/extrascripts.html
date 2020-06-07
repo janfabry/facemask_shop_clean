@@ -1,0 +1,10 @@
+{# Sentry #}
+{% if sentry_config %}
+<script src="https://browser.sentry-cdn.com/5.16.0/bundle.min.js" integrity="sha384-8XeHBuZ2XhMbhyH74W/+6MLGL3PfryfC87kUgxZXJ/z3cUmSETfEZLMo4CPVxh1r" crossorigin="anonymous">
+</script>
+<script>
+    Sentry.init({{ sentry_config }});
+</script>
+{% endif %}
+{# Mailchimp #}
+<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/abe3102c157fdc957b5572e8b/c1dd5331611c85b0c1170791c.js");</script>
