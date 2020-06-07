@@ -28,7 +28,7 @@
         {% with product=products.own_design %}
         <div class="col-lg-6 product">
             {% with image=product.primary_image %}
-                {% oscar_thumbnail image.original "x155" upscale=False as thumb %}
+                {% oscar_thumbnail image.original "140x140" upscale=False as thumb %}
                 <img class="img-circle" src="{{ thumb.url }}" alt="{{ product.get_title }}" width="140" height="140">
             {% endwith %}
             <h2>Eigen afbeelding</h2>
@@ -40,7 +40,7 @@
         {% with product=products.selfie %}
         <div class="col-lg-6 product">
             {% with image=product.primary_image %}
-            {% oscar_thumbnail image.original "x155" upscale=False as thumb %}
+            {% oscar_thumbnail image.original "140x140" upscale=False as thumb %}
             <img class="img-circle" src="{{ thumb.url }}" alt="{{ product.get_title }}" width="140" height="140">
             {% endwith %}
             <h2>Jouw gezicht</h2>
