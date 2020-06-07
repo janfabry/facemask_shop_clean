@@ -57,3 +57,13 @@
     </div>
 </div>
 {% endblock %}
+
+{% block extrascripts %}
+{{ block.super }}
+{# Mailchimp #}
+<script id="mcjs">
+document.cookie = "MCPopupClosed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/abe3102c157fdc957b5572e8b/c1dd5331611c85b0c1170791c.js");
+</script>
+
+{% endblock %}
