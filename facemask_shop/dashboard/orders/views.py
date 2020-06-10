@@ -9,6 +9,10 @@ class OrderListView(oscar_views.OrderListView):
     template_name = 'dashboard/orders/order_list.html'
 
 
+class OrderDetailView(oscar_views.OrderDetailView):
+    template_name = 'dashboard/orders/order_detail.html'
+
+
 class PdfView(DetailView):
     model = Order
     context_object_name = 'order'

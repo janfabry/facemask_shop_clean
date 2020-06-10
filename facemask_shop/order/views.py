@@ -12,6 +12,10 @@ class LineImageView(DetailView):
     model = Line
 
     def get_queryset(self):
+        if self.request.user.is_staff:
+            return Line._default_manager.all()
+        if self.request.user.is_anonymous:
+            return Line._default_manager.none()
         return Line._default_manager.filter(order__user=self.request.user)
 
     def get(self, request, *args, **kwargs):

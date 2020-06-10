@@ -32,6 +32,7 @@
         <th>{% trans "Shipping address" %}</th>
         <th>{% trans "Billing address" %}</th>
         <th>{% trans "Date of purchase" %}</th>
+        <th>Thumbnail</th>
         <th></th>
     </tr>
     </thead>
@@ -55,6 +56,11 @@
         <td>{{ order.shipping_address|default:"-" }}</td>
         <td>{{ order.billing_address|default:"-" }}</td>
         <td>{{ order.date_placed }}</td>
+        <td>
+            {% for line in order.lines.all %}
+            <img class="thumbnail" src="{% url 'order:line-thumbnail' line.id %}">
+            {% endfor %}
+        </td>
         <td>
             <a class="btn btn-info" href="{% url 'dashboard:order-detail' number=order.number %}">{% trans "View" %}</a>
             <a class="btn btn-info" href="{% url 'dashboard:order-pdf' number=order.number %}">PDF</a>
