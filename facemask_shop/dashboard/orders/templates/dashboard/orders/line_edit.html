@@ -36,8 +36,11 @@ Order {{ number }} - Line #{{ id }}
     </div>
     <div class="col-sm-6">
         <ol>
+            {% if original_facemask.original_image %}
+            <li><a href="{{ original_facemask.original_image.url }}" class="btn btn-default">Download original full image</a></li>
+            {% endif %}
             {% if facemask.original_image %}
-            <li><a href="{{ facemask.original_image.url }}" class="btn btn-default">Download full image</a></li>
+            <li><a href="{{ facemask.original_image.url }}" class="btn btn-default">Download current full image</a></li>
             {% else %}
             <li>Geen original image! Is dit een face mask me?</li>
             {% endif %}

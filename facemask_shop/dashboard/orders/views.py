@@ -41,12 +41,13 @@ class LineEditView(oscar_views.LineDetailView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['facemask'] = self.get_facemask(kwargs.get('object'))
+        context_data['original_facemask'] = self.get_facemask(kwargs.get('object'), 'original-mask-image-id')
         context_data.setdefault('facemask_form', FacemaskEditorForm(initial={'redirect_url': self.request.GET.get('redirect_url')}))
         return context_data
 
-    def get_facemask(self, line: Line) -> Facemask:
+    def get_facemask(self, line: Line, attribute='mask-image-id') -> Facemask:
         try:
-            mask_image_id = line.attributes.get(type='mask-image-id').value
+            mask_image_id = line.attributes.get(type=attribute).value
         except LineAttribute.DoesNotExist:
             return None
         try:
@@ -62,6 +63,13 @@ class LineEditView(oscar_views.LineDetailView):
         if form.is_valid():
             facemask_id = form.cleaned_data['facemask_id']
             la = line.attributes.get(type='mask-image-id')
+            # Save original mask image ID (if not already saved)
+            line.attributes.get_or_create(
+                type='original-mask-image-id',
+                defaults={
+                    'value': la.value
+                }
+            )
             la.value = facemask_id
             la.save()
             # Invalidate order PDF
