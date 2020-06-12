@@ -39,12 +39,15 @@
             {% endif %}
         </td>
         <td>{{ line.status|default:"-" }}</td>
-        <td><img class="thumbnail" src="{% url 'order:line-thumbnail' line.id %}"></td>
+        <td>
+            <a href="{% url 'dashboard:order-line-edit' number=order.number line_id=line.id %}"><img class="thumbnail" src="{% url 'order:line-thumbnail' line.id %}"></a>
+        </td>
         <td>{{ line.est_dispatch_date|default:"-" }}</td>
         <td class="text-right">{{ line.line_price_before_discounts_excl_tax|currency:order.currency }}</td>
         <td class="text-right">{{ line.line_price_before_discounts_incl_tax|currency:order.currency }}</td>
         <td>
             <a href="{% url 'dashboard:order-line-detail' number=order.number line_id=line.id %}" class="btn btn-info">{% trans "View" %}</a>
+            <a href="{% url 'dashboard:order-line-edit' number=order.number line_id=line.id %}" class="btn btn-info">{% trans "Edit" %}</a>
         </td>
     </tr>
     {% endfor %}

@@ -58,7 +58,7 @@
         <td>{{ order.date_placed }}</td>
         <td>
             {% for line in order.lines.all %}
-            <img class="thumbnail" src="{% url 'order:line-thumbnail' line.id %}">
+            <a href="{% url 'dashboard:order-line-edit' number=order.number line_id=line.id %}"><img class="thumbnail" src="{% url 'order:line-thumbnail' line.id %}"></a>
             {% endfor %}
         </td>
         <td>

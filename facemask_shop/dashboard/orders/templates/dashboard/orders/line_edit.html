@@ -1,53 +1,67 @@
-{% extends "oscar/catalogue/detail.html" %}
+{% extends 'oscar/dashboard/layout.html' %}
 {% load i18n %}
 {% load static %}
 
-{% comment %}
-Disable a lot of blocks here
-{% endcomment %}
-{% block breadcrumbs %}{% endblock %}
-{% block product_info %}{% endblock %}
+{% block title %}
+{% blocktrans with number=line.order.number id=line.id%}
+Order {{ number }} - Line #{{ id }}
+{% endblocktrans %} | {{ block.super }}
+{% endblock %}
 
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li>
+        <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+    </li>
+    <li>
+        <a href="{% url 'dashboard:order-list' %}">{% trans "Orders" %}</a>
+    </li>
+    <li>
+        <a href="{% url 'dashboard:order-detail' number=line.order.number %}">#{{ line.order.number }}</a>
+    </li>
+    <li class="active">{% blocktrans with id=line.id %}Line #{{ id }}{% endblocktrans %}</li>
+</ul>
+{% endblock %}
 
-{% block product_gallery %}
-<div class="col-sm-6">
-    <div id="product_gallery" class="carousel">
-        <div class="thumbnail">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <div id="facemask-editor"></div>
-                </div>
-            </div>
+{% block headertext %}
+{% blocktrans with number=line.order.number id=line.id %}Order #{{ number }} - Line #{{ id }}{% endblocktrans %} ({{ line.product }})
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="row">
+    <div class="col-sm-6">
+        <div id="facemask-editor-container" class="item active">
+            <div id="facemask-editor"></div>
         </div>
-        {% if product.id == products.own_design.id %}
+    </div>
+    <div class="col-sm-6">
         <ol>
+            {% if facemask.original_image %}
+            <li><a href="{{ facemask.original_image.url }}" class="btn btn-default">Download full image</a></li>
+            {% else %}
+            <li>Geen original image! Is dit een face mask me?</li>
+            {% endif %}
             <li><input type="file" id="fileUploadInput" class="filestyle" data-input="false" data-buttonText="Kies een afbeelding" data-badge="false"></li>
-            <li><button id="rotateImageButton" class="btn btn-default"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Roteer beeld</button></li>
+            <!--    <li><button id="rotateImageButton" class="btn btn-default"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Roteer beeld</button></li>-->
             <li>Verschuif de afbeelding op de juiste plaats met je vinger of muis</li>
-            <li><button id="toggleRotationButton" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Looks good?</button> Bestellen maar! Begin anders opnieuw bij 1</li>
+            <li><button id="toggleGuides" class="btn btn-default">Guides uitzetten</button></li>
+            <!--    <li><button id="handleSelfieButton" class="btn btn-default"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Start camera</button></li>-->
+            <!--    <li><button id="switchCameraButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Wissel camera</button></li>-->
+            <!--    <li>Zet je neus en mond op de juiste plaats</li>-->
+            <!--    <li><button id="captureSelfieButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Leg foto vast</button></li>-->
+            <li><button id="toggleRotationButton" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Looks good?</button></li>
+            <li><button id="saveNewFacemask" class="btn btn-default">Save new facemask</button></li>
         </ol>
-        {% endif %}
-        {% if product.id == products.selfie.id %}
-        <ol>
-            <li><button id="handleSelfieButton" class="btn btn-default"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Start camera</button></li>
-            <li><button id="switchCameraButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Wissel camera</button></li>
-            <li>Zet je neus en mond op de juiste plaats</li>
-            <li><button id="captureSelfieButton" class="btn btn-default" disabled><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Leg foto vast</button></li>
-            <li><button id="toggleRotationButton" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Looks good?</button> Bestellen maar! Begin anders opnieuw bij 1</li>
-        </ol>
-        {% endif %}
-        <p class="text-center"><a class="btn btn-info" href="https://nl.surveymonkey.com/r/FaceMasksAreCool">Lukt er iets niet? Laat het ons weten!</a></p>
     </div>
 </div>
+
+<form method="post" id="facemask-editor-form">
+    {% csrf_token %}
+    {{ facemask_form }}
+</form>
+
 {% endblock %}
 
-{% block product_basket_form %}
-{{ block.super }}
-{% include "oscar/basket/partials/basket_quick.html" %}
-{% comment %}
-{% block mini_basket %}{% include "oscar/partials/mini_basket.html" %}{% endblock %}
-{% endcomment %}
-{% endblock %}
 
 {% block extrahead %}
 {{ block.super }}
@@ -91,6 +105,12 @@ EDITOR_UPLOAD_URL = '{% url 'editor:upload' %}';
     display: inline-block;
 }
 
+#facemask-editor-container,
+#facemask-editor {
+    /*width: 570px;*/
+    height: 400px;
+}
+
 @media only screen and (max-width : 500px) {
     #product_gallery .thumbnail {
         margin-right: -10%;
@@ -113,16 +133,18 @@ var facemask_editor_canvas = document.getElementById('application-canvas');
 document.getElementById('facemask-editor').appendChild(facemask_editor_canvas);
 
 var app = pc.Application.getApplication();
+var guidesEnabled = false;
 app.on("start", function () {
-    $('#add_to_basket_form').on('submit', function(e) {
-        e.preventDefault();
+    $('#saveNewFacemask').on('click', function(e) {
+        // e.preventDefault();
 
-        var orderForm = this;
+        var editorForm = $('#facemask-editor-form');
+        toggleGuides(false);
 
         uploadFile(EDITOR_UPLOAD_URL, function(err, response) {
             if (!err && response.success) {
-                $('#id_mask-image-id').val(response.mask_id);
-                orderForm.submit();
+                $('#id_facemask_id').val(response.mask_id);
+                editorForm.submit();
             } else {
                 if (window.Sentry) {
                     if (err instanceof Error) {
@@ -137,7 +159,7 @@ app.on("start", function () {
         });
     });
 
-    $('#fileUploadInput').on('change', handleImageInputChange);
+    $('#fileUploadInput').on('change', handleImageAsSelfie);
     $('#toggleRotationButton').on('click', toggleRotation).on('click', function() {
         $(this).children('.glyphicon')
             .toggleClass('glyphicon-play', !shouldRotate)
@@ -146,6 +168,7 @@ app.on("start", function () {
     $('#rotateImageButton').on('click', rotateImage);
     $('#handleSelfieButton, #switchCameraButton')
         .on('click', function() {
+            guidesEnabled = true;
             if (window.facingMode === 'user') {
                 window.facingMode = 'environment';
             } else {
@@ -158,6 +181,10 @@ app.on("start", function () {
             $('#switchCameraButton').prop('disabled', false);
         });
     $('#captureSelfieButton').on('click', captureSelfie);
+    $('#toggleGuides').on('click', function () {
+        guidesEnabled != guidesEnabled;
+        toggleGuides(guidesEnabled);
+    });
 });
 </script>
 {% endblock %}

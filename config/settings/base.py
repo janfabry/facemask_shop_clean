@@ -146,6 +146,7 @@ TEMPLATES = [
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.apps.customer.notifications.context_processors.notifications',
                 'oscar.core.context_processors.metadata',
+                'facemask_shop.context_processors.playcanvas_editor',
                 'facemask_shop.context_processors.sentry',
             ],
         },
@@ -279,3 +280,5 @@ FACEMASKME_PRODUCT_IDS = env.dict('DJANGO_FACEMASKME_PRODUCT_IDS', default={
     'own_design': '1',
     'selfie': '3',
 })
+
+FACEMASK_EDITOR_VERSION = '17'

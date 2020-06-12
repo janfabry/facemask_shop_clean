@@ -10,6 +10,7 @@ class OrdersDashboardConfig(apps.OrdersDashboardConfig):
         super().ready()
         self.permissions_map['order-pdf'] = (['is_staff'], ['partner.dashboard_access'])
         self.pdf_view = get_class('dashboard.orders.views', 'PdfView')
+        self.line_edit_view = get_class('dashboard.orders.views', 'LineEditView')
 
     def get_urls(self):
         urls = [
@@ -28,5 +29,8 @@ class OrdersDashboardConfig(apps.OrdersDashboardConfig):
             url(r'^(?P<number>[-\w]+)/pdf/$',
                 self.pdf_view.as_view(),
                 name='order-pdf'),
+            url(r'^(?P<number>[-\w]+)/lines/(?P<line_id>\d+)/edit/$',
+                self.line_edit_view.as_view(),
+                name='order-line-edit'),
         ]
         return self.post_process_urls(urls)

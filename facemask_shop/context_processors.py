@@ -4,6 +4,12 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 
 
+def playcanvas_editor(request):
+    return {
+        'playcanvas_root': settings.STATIC_URL + 'editor/playcanvas/%s/' % settings.FACEMASK_EDITOR_VERSION
+    }
+
+
 def sentry(request):
     if not settings.SENTRY_FRONTEND_DSN:
         return {'sentry_config': None}
