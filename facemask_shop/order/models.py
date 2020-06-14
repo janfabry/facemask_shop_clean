@@ -81,10 +81,10 @@ class Order(AbstractOrder):
     print_file = models.FileField(upload_to='orders/', blank=True, null=True)
 
     def is_open_payment(self):
-        return self.status == settings.OSCAR_STATUSES.PENDING
+        return self.status == settings.OSCAR_ORDER_STATUSES.PENDING
 
     def is_cancelled_order(self):
-        return self.status == settings.OSCAR_STATUSES.CANCELLED
+        return self.status == settings.OSCAR_ORDER_STATUSES.CANCELLED
 
     def create_print_file(self, override=False):
         if self.print_file and not override:
