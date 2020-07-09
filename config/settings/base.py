@@ -347,6 +347,8 @@ MOLLIE_STATUS_MAPPING = {
 }
 
 
+FACEMASKME_HOMEPAGE_URL = env('DJANGO_FACEMASKME_HOMEPAGE_URL', default='https://jasperolaerts.wixsite.com/fmac')
+
 FACEMASKME_PRODUCT_IDS = env.dict('DJANGO_FACEMASKME_PRODUCT_IDS', default={
     'own_design': '1',
     'selfie': '3',
